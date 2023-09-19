@@ -1,0 +1,36 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Authentication table
+model Auth {
+  authid         String    @id @unique @default(uuid())
+  email          String?   @unique
+  phoneNo        String?   @unique
+  hashedPassword String
+  refreshToken   String?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+}
+
+model Document {
+  documentId String   @id @unique @default(uuid())
+  chat       String[]
+  authId     String
+}
+
+model Pdf {
+  pId     String    @id @unique @default(uuid())
+  link    String
+  text    String
+  authId  String
+  createdAt  DateTime  @default(now())
+}
